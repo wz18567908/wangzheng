@@ -1,2 +1,0 @@
-This a a test!
-This test name is ct1.txt
