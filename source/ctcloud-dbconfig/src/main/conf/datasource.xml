@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DataSources xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:schemaLocation="http://www.clustertech.com/report/2012/datasource datasource.xsd">
+  <!--This Conf file can use multi-datasource.
+      name  Name of datasource.If have multi-datasource,please use different name.
+      driver  A JDBC driver is a set of database-specific implementations for the interfaces defined by JDBC.
+      url  The database URL.
+      userName  The database username.
+      password  The database user's password.
+      default   Default or not.
+  -->
+  <DataSource name="CloudDB"
+    driver="org.gjt.mm.mysql.Driver"
+    url="jdbc:mysql://localhost:3306/ctcloud"
+    default="true"
+    userName="2GEWXMCFjgc="
+    password="2GEWXMCFjgc=">
+    <Properties>
+        <Property name="maxActive">30</Property>
+    </Properties>
+  </DataSource>
+</DataSources>

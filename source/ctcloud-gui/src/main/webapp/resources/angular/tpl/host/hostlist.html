@@ -1,0 +1,37 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">Host List</h1>
+</div>
+<div class="wrapper-md">
+    <div class="panel panel-default">
+        <div class="panel-heading">     
+            <button type="button" ng-click="addRandomItem(row)" class="btn btn-sm btn-success"><i class=""></i>Open</button>
+            <button type="button" ng-click="addRandomItem(row)" class="btn btn-sm btn-success"><i class=""></i>Close</button>
+        </div>
+        <div class="table-responsive">
+            <table ui-jq="dataTable" ui-options="{
+          sAjaxSource: 'api/host.json',
+          aoColumns: [
+            { mData: 'hostName' },
+            { mData: 'hostStatus' },
+            { mData: 'cpus' },
+            { mData: 'cores' },
+            { mData: 'hostType' },
+            { mData: 'jobSlots' }
+          ]
+        }" class="table table-striped b-t b-b">
+                <thead>
+                    <tr>
+                        <th style="width:20%">Host Name</th>
+                        <th style="width:25%">Host Status</th>
+                        <th style="width:25%">CPUs</th>
+                        <th style="width:15%">Cores</th>
+                        <th style="width:15%">Host Type</th>
+                        <th style="width:15%">Job Slots</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

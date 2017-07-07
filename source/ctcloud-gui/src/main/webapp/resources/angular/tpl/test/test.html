@@ -1,0 +1,333 @@
+<style>
+
+.mainArea {
+    padding:0px;
+    margin:0px;
+    background-color:$white;
+}
+.headArea {
+    width:100%;
+    height:44px;
+    padding-left:10px;
+	padding-top:8px;
+    border-bottom: 1px solid #aeb8b8; 
+}
+.headArea .breadcrumb-edit{
+   margin-top: 4px;	
+	}
+.navArea {
+    height:calc(80% - 28px);
+    width:20%;
+    float:left;
+    padding: 0px;
+    border-right: 1px solid #aeb8b8; 
+}
+.navArea ul{
+	list-style: none;
+	display: block;
+}
+.navArea ul li.favItem:hover,
+.navArea ul li.favItem:focus{
+	background-color: #dfe9e9;
+}
+.navArea ul li.favItem:active{
+	background: rgba(0, 180, 160, 0.3);
+}
+.navArea ul li.favItem a{
+	list-style: none;
+	padding: 8px 20px;
+	line-height: 36px;
+	color: #323c3c;
+	text-decoration: none;
+}
+.navArea ul li.favItem a:hover,
+.navArea ul li.favItem a:actived,
+.navArea ul li.favItem a:focus{
+	color: #323c3c;
+	text-decoration: none;
+	}
+.navArea ul li.favItem a svg{
+	margin-right: 10px;
+    vertical-align: middle;
+	}
+.navItem {
+    list-style: outside none none;
+    height: 22px;
+    cursor: pointer;
+    display: block;
+    padding: 0;
+}
+.dataArea {
+    float:right;
+    width:80%;
+}
+.fileOper {
+    display:inline;
+    float:left;
+    padding:10px 20px 0px 20px;
+}
+.fileQuery {
+    display:inline;
+    float:right;
+    padding:10px 20px 0px 20px;
+}
+.fileList {
+    width:100%;
+
+}
+.footArea {
+    position:absolute;
+    bottom:0;
+    width:100%;
+    padding:15px;
+    border-top: 1px solid #aeb8b8; 
+}
+.fileFilter {
+    display:inline;
+    float:left;
+    padding-left:140px;
+}
+.formButton {
+    display:inline;
+    float:right;
+    padding-right:0px;
+}
+ .ui-dialog .ui-widget-header button.ui-dialog-titlebar-close {
+    background-color: #f0f2f4;
+    border: 0 none;
+    cursor: pointer;
+} 
+ .ui-dialog .ui-dialog-titlebar-close {
+    height: 40px;
+    margin: 14px 0 0;
+    padding: 0;
+    position: absolute;
+    right: 20px;
+    width: 20px;
+} 
+.homedir {
+background-color: #f0f2f4;
+}
+
+table.dataTable.no-footer {
+    border-bottom: 0px solid #111;
+}
+.filelink {
+ text-decoration: underline;
+}
+
+.hiddenColumn{
+display:none;
+}
+/* .ui-dialog .ui-dialog-titlebar-close {
+    height: 0;
+}
+ */
+ 
+ .ui-dialog .ui-widget-header button.ui-dialog-titlebar-close span.ui-icon-closethick{
+ 	background-image: none;
+	font-size: inherit;
+    color: $text-color;
+    font-family: "UX1 Glyphicons";
+    text-indent: inherit;
+}
+
+.ui-dialog .ui-widget-header button.ui-dialog-titlebar-close span.ui-icon-closethick:before {
+    content: "";
+    box-sizing: border-box;
+}
+
+
+/* Absolute Center Spinner */
+.loading {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  overflow: show;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+/* Transparent Overlay */
+.loading:before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.3);
+}
+
+/* :not(:required) hides these rules from IE9 and below */
+.loading:not(:required) {
+  /* hide "loading..." text */
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+
+.loading:not(:required):after {
+  content: '';
+  display: block;
+  font-size: 10px;
+  width: 1em;
+  height: 1em;
+  margin-top: -0.5em;
+  -webkit-animation: spinner 1500ms infinite linear;
+  -moz-animation: spinner 1500ms infinite linear;
+  -ms-animation: spinner 1500ms infinite linear;
+  -o-animation: spinner 1500ms infinite linear;
+  animation: spinner 1500ms infinite linear;
+  border-radius: 0.5em;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.5) -1.5em 0 0 0, rgba(0, 0, 0, 0.5) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+  box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) -1.5em 0 0 0, rgba(0, 0, 0, 0.75) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+}
+
+/* Animation */
+
+@-webkit-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-moz-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-o-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+.hiddenload {
+ display:none;
+}
+ </style>
+
+<div ng-controller="testCtrl">
+	<div class="bg-light lter b-b wrapper-md">
+		<h1 class="m-n font-thin h3">file</h1>
+			
+	<loading-bar></loading-bar>
+	</div>
+	<div style="overflow: hidden; position: relative;">
+	<button class="btn btn-primary"><span>Open Local File</span></button>
+	<!-- input type="file" nv-file-select="" uploader="uploader" multiple   style="position: absolute; top: 0px; left: 0px; z-index: 2; width: 100%; height: 100%; opacity: 0; cursor: pointer;"/-->
+	<input type="file" onchange="angular.element(this).scope().getFileList(this)"  multiple   style="position: absolute; top: 0px; left: 0px; z-index: 2; width: 100%; height: 100%; opacity: 0; cursor: pointer;"/>
+	</div>
+      
+      <div style="overflow: hidden; position: relative;">
+	  <button class="btn btn-primary" ng-click="openRemotefile()">Open Server File</button>
+	  </div>
+	   <div class="wrapper-md">
+      <table class="table bg-white-only b-a">
+          <thead>
+              <tr>
+                  <th width="30%">Name</th>
+                  <th>Host</th>
+                  <th >Size</th>
+                  <!-- th ng-show="uploader.isHTML5">Progress</th>
+                  <th>Status</th -->
+                  <th>Actions</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr ng-repeat="item in upload2files track by $index">
+                  <td><strong>{{item.name }}</strong></td>
+                  <td nowrap ><div  ng-if="item.host == null">Local</div><div  ng-if="item.host">{{item.host}}</div></td>
+                  <td  nowrap>{{ item.size/1024|number:2 }} KB</td>
+                  <!-- td ng-show="uploader.isHTML5">
+                      <div class="progress progress-sm m-b-none m-t-xs">
+                          <div class="progress-bar bg-info" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                      </div>
+                  </td>
+                  <td class="text-center">
+                      <span ng-show="item.isSuccess" class="text-success"><i class="glyphicon glyphicon-ok"></i></span>
+                      <span ng-show="item.isCancel" class="text-warning"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                      <span ng-show="item.isError" class="text-danger"><i class="glyphicon glyphicon-remove"></i></span>
+                  </td -->
+                  <td nowrap>
+                       <button  type="button" class="btn btn-default btn-xs" ng-click="removeFile(item)">
+                          Remove
+                      </button>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+
+      <div>
+        <div style="overflow: hidden; position: relative;">
+	  <button class="btn btn-primary" ng-click="startUpload()">startUpload</button>
+	  </div>
+</div>
+
+<div>
+   	<div class="progress bg-light dker" style="">
+		<div class="progress-bar progress-bar-striped bg-info" role="progressbar" ng-style="{ 'width': 20 + '%' }"></div>
+	</div>
+	
+	<!-- div class="loading">Loading&#8230;</div -->
+
+	
+	
+	
+</div>

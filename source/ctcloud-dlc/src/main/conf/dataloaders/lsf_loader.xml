@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DataLoader xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="dataloader.xsd">
+
+    <Description><![CDATA[Load data from lsf accounting files.]]></Description>
+    <Reader class="com.clustertech.cloud.dlc.framework.reader.lsf.LSFJobReader" maxBufferSize="30">
+        <Properties>
+            <Property name="timeout">600</Property>
+            <Property name="delimiter"><![CDATA[ ]]></Property>
+            <Property name="quote"><![CDATA["]]></Property>
+            <Property name="escape"><![CDATA[$]]></Property>
+        </Properties>
+        <Extra>
+            <Headers>
+                <Header table="LSF_LIVE_JOB">TABLE_NAME,JOB_ID,JOB_ARRAY_INDEX,JOB_NAME,USER_NAME,QUEUE,SUBMIT_TIME,START_TIME,END_TIME,EXEC_HOSTSTR,FROM_HOST,COMMAND,PROJECT_NAME,WORKLOAD_TYPE,JOB_STATUS,EXIT_STATUS,CLUSTER_NAME</Header>
+            </Headers>
+        </Extra>
+    </Reader>
+    <Writer maxBatchSize="30" errorHandler="EXIT">
+        <SQL ds="CloudDB" table="LSF_LIVE_JOB" maxBatchSize="5000">
+            <Statement>
+                <![CDATA[
+                  REPLACE INTO LSF_LIVE_JOB(
+                    JOB_ID,
+                    JOB_ARRAY_INDEX,
+                    JOB_NAME,
+                    USER_NAME,
+                    QUEUE,
+                    SUBMIT_TIME,
+                    START_TIME,
+                    END_TIME,
+                    EXEC_HOSTSTR,
+                    FROM_HOST,
+                    COMMAND,
+                    PROJECT_NAME,
+                    WORKLOAD_TYPE,
+                    JOB_STATUS,
+                    EXIT_STATUS,
+                    CLUSTER_NAME
+                  )VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ]]>
+            </Statement>
+            <Parameters>
+                <Param value="JOB_ID"/>
+                <Param value="JOB_ARRAY_INDEX"/>
+                <Param value="JOB_NAME"/>
+                <Param value="USER_NAME"/>
+                <Param value="QUEUE"/>
+                <Param value="SUBMIT_TIME"/>
+                <Param value="START_TIME"/>
+                <Param value="END_TIME"/>
+                <Param value="EXEC_HOSTSTR"/>
+                <Param value="FROM_HOST"/>
+                <Param value="COMMAND"/>
+                <Param value="PROJECT_NAME"/>
+                <Param value="WORKLOAD_TYPE"/>
+                <Param value="JOB_STATUS"/>
+                <Param value="EXIT_STATUS"/>
+                <Param value="CLUSTER_NAME"/>
+            </Parameters>
+        </SQL>
+    </Writer>
+</DataLoader>

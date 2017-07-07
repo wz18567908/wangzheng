@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:element name="DataLoader">
+        <xs:annotation>
+            <xs:documentation>
+                The DataLoader root
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Description" type="xs:string" minOccurs="0"/>
+                <xs:element name="Reader">
+                    <xs:annotation>
+                        <xs:documentation>
+                            The plug-in Reader
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Properties" minOccurs="0" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="Property" minOccurs="1" maxOccurs="unbounded">
+                                            <xs:annotation>
+                                                <xs:documentation>
+                                                    The properties include: executable: The execute shell script; skipHeader: Need to skip the header or not; timeout: Period in seconds before the loader kill the process; delimiter: Delimiter of the CSV file, ',' by default; quote: Quote character in the CSV file, '"' by default; escape: Escape character in the CSV file, '\' by default.
+                                                </xs:documentation>
+                                            </xs:annotation>
+                                            <xs:complexType>
+                                                <xs:simpleContent>
+                                                    <xs:extension base="xs:string">
+                                                        <xs:attribute name="name" type="xs:string" use="required"/>
+                                                    </xs:extension>
+                                                </xs:simpleContent>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="Extra" minOccurs="0" maxOccurs="unbounded">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        Header of a table. Note: The first column is always TABLE_NAME. This is mandatory for the PipeReader. The name of the table is case sensitive. The table name in the output must matches the table name. Specified here and the table name specified in the SQL element.
+                                    </xs:documentation>
+                                </xs:annotation>
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="Headers" maxOccurs="1">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="Header" minOccurs="1" maxOccurs="1">
+                                                        <xs:complexType>
+                                                            <xs:simpleContent>
+                                                                <xs:extension base="xs:string">
+                                                                    <xs:attribute name="table" type="xs:string" use="required"/>
+                                                                </xs:extension>
+                                                            </xs:simpleContent>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="class" type="xs:string" use="required">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    Defined which Reader implement will be used to get data. The Class attribute refer the Class name or Reader implements. This Class can be developed by customer.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:attribute>
+                        <xs:attribute name="maxBufferSize" use="optional">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    Defined which Writer will be used to load the output of Reader into DataBase. maxBatchSize: Defined how many records will be committed into DataBase one time. errorHandler: What the next behavior when error occurs during data write. * dlp - persist data to local disk, mainly used for sampling loader * exit - exit the data loader with error, mainly used for file loader.
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                                <xs:restriction base="xs:integer">
+                                    <xs:minInclusive value="1"/>
+                                    <xs:maxInclusive value="10000"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:attribute>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Writer">
+                    <xs:annotation>
+                        <xs:documentation>
+                            The common writer modle
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="SQL" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="Statement">
+                                            <xs:annotation>
+                                                <xs:documentation>
+                                                    The insert sql statement. The SQL statement will be defined in this element. If The Field sub elements map the output of Reader to DataBase table. The Name attribute is the key of Reader output. The Column attribute is the column name of DataBase Table.
+                                                </xs:documentation>
+                                            </xs:annotation>
+                                        </xs:element>
+                                        <xs:element name="Parameters" minOccurs="0" maxOccurs="unbounded">
+                                            <xs:annotation>
+                                                <xs:documentation>
+                                                    The following types can be taken (case-insensitive). String - string/text value. If no type explicitly specified, this will be a default type. Numeric - numeric value, the same as double value. Double - double value. Integer - integer/long value. Timestamp - timestamp value, the format of the string is either 'yyyy-MM-dd HH:mm:ss' or 'yyyy-mm-dd HH:mm:ss.SSS'. Date - date value, the format of the string is 'yyyy-MM-dd'. Time - time value, the format of the string 'HH:mm:ss'.
+                                                </xs:documentation>
+                                            </xs:annotation>
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="Param" maxOccurs="unbounded">
+                                                        <xs:complexType>
+                                                            <xs:attribute name="value" type="xs:string" use="required"/>
+                                                            <xs:attribute name="type" type="xs:string"/>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                    <xs:attribute name="ds">
+                                        <xs:simpleType>
+                                            <xs:restriction base="xs:string">
+                                                <xs:enumeration value="CloudDB"/>
+                                            </xs:restriction>
+                                        </xs:simpleType>
+                                    </xs:attribute>
+                                    <xs:attribute name="table" type="xs:string" use="required"/>
+                                    <xs:attribute name="maxBatchSize" use="optional">
+                                        <xs:simpleType>
+                                            <xs:restriction base="xs:integer">
+                                                <xs:minInclusive value="1"/>
+                                                <xs:maxInclusive value="10000"/>
+                                            </xs:restriction>
+                                        </xs:simpleType>
+                                    </xs:attribute>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="maxBatchSize" use="optional">
+                            <xs:simpleType>
+                                <xs:restriction base="xs:integer">
+                                    <xs:minInclusive value="1"/>
+                                    <xs:maxInclusive value="10000"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="errorHandler" type="xs:string" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

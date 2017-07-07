@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# Daemons listening ports must not
+# be in use by other programs.
+export DLC_PORT=9785
+
+# Set the top level directory of the dlc
+export CTDLC_TOP="__CTDLC_TOP__"
+
+# Set the home directory of the jre
+export JRE_HOME="${CTDLC_TOP%/*}/jre"
+
+# Set the path environment variable
+export PATH="${PATH}:${CTDLC_TOP}/bin"
+
+# Set the log directory for dataloaders
+export LOG_DIR="${CTDLC_TOP}/logs"
+
+# Set the top level directory of the lsf
+export LSF_TOP="__LSF_TOP__"

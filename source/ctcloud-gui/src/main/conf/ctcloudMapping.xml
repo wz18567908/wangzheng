@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<mapping>
+    <class name="com.clustertech.cloud.gui.configure.CloudConfigureInfo">
+        <map-to xml="CTCLOUDConf" />
+        <field name="cloudTop">
+            <bind-xml name="cloudTop" />
+        </field>
+    </class>
+</mapping>

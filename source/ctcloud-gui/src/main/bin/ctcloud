@@ -1,0 +1,82 @@
+#!/bin/sh
+
+basePath=$(cd `dirname $0`;pwd)
+GUI_TOP=${basePath%/*}
+LSF_ENVDIR=`env | grep "LSF_ENVDIR" | awk -F "=" '{print $2}'`
+LSF_TOP=${LSF_ENVDIR}/../
+
+# source the ctcloud and lsf environment variable.
+SHELL_TYPE=`env | grep "SHELL" | awk -F "=" '{print $2}'`
+if [[ "${SHELL_TYPE}" =~ "bash" ]];then
+    source ${LSF_TOP}/conf/profile.lsf
+else
+    source ${LSF_TOP}/conf/cshrc.lsf
+fi
+
+#start/stop the tomcat deamon
+prog=ctcloud
+
+check_tomcat() {
+    PORT=`cat $GUI_TOP/tomcat/conf/server.xml | grep 'Connector port' | grep "HTTP/1.1" |  sed "s/\"/ /g" | awk '{print $3}'`
+    pid=`netstat -nlp | grep $PORT | awk '{print $7}' | awk -F"/" '{ print $1 }'`
+    return $pid
+}
+
+start() {
+    echo $"Startting $prog ... "
+    check_tomcat
+    if [ -n "$pid" ]; then
+        echo -n "The port[$PORT] is already in use, please choose an available port in tomcat!"
+    else
+        sh $GUI_TOP/tomcat/bin/startup.sh >/dev/null 2>&1
+        echo -n $prog" has started successfully! "
+    fi
+    echo
+}
+
+stop() {
+    echo $"Stopping $prog ... "
+    check_tomcat
+    if [ -n "$pid" ]; then
+        sh $GUI_TOP/tomcat/bin/shutdown.sh >/dev/null 2>&1
+        if [ $pid != 0 ]; then
+            kill -9 $pid
+        fi
+        echo -n $prog" has stoped successfully! "
+    fi
+    echo
+}
+
+status() {
+    check_tomcat
+    if [ -n "$pid" ]; then
+        echo -n $prog" is runing!"
+        echo
+    else
+        echo -n $prog" is down!"
+        echo
+    fi
+}
+
+restart() {
+    stop
+    start
+}
+
+case "$1" in
+        start)
+                start
+                ;;
+        stop)
+                stop
+                ;;
+        status)
+                status
+                ;;
+        restart)
+                restart
+                ;;
+        *)
+                echo "Usage: ctcloud {start|stop|restart|status}"
+                exit 1
+esac

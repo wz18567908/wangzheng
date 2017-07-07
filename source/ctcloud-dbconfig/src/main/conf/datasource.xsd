@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:loader="http://www.clustertech.com/report/2012/datasource" elementFormDefault="qualified">
+    <xs:element name="DataSources">
+        <xs:annotation>
+            <xs:documentation>The schema for the data source configuration file</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="DataSource">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Properties" minOccurs="0" maxOccurs="1">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="Property" minOccurs="1" maxOccurs="unbounded">
+                                            <xs:complexType>
+                                                <xs:simpleContent>
+                                                    <xs:extension base="xs:string">
+                                                        <xs:attribute name="name" type="xs:string" use="required"/>
+                                                    </xs:extension>
+                                                </xs:simpleContent>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                                <xs:unique name="uniquePropertyName">
+                                    <xs:selector xpath="Property"></xs:selector>
+                                    <xs:field xpath="@name"></xs:field>
+                                </xs:unique>
+                            </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="name" type="xs:string" use="required"/>
+                        <xs:attribute name="driver" type="xs:string" use="required"/>
+                        <xs:attribute name="url" type="xs:string" use="required"/>
+                        <xs:attribute name="userName" type="xs:string" use="required"/>
+                        <xs:attribute name="password" type="xs:string" use="required"/>
+                        <xs:attribute name="default" type="xs:boolean"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+        <xs:unique name="uniqueDSName">
+            <xs:selector xpath="DataSource"></xs:selector>
+            <xs:field xpath="@name"></xs:field>
+        </xs:unique>
+    </xs:element>
+</xs:schema>

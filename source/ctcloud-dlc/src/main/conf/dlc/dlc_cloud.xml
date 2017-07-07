@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DLC xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="dlc.xsd">
+    <DataLoaders>
+        <DataLoader name="lsfJobEventLoader" interval="30" enabled="true" configPath="dataloaders/lsf_loader.xml"/>
+    </DataLoaders>
+</DLC>

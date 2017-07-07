@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.3.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+    <context:component-scan base-package="com.clustertech.cloud.gui.dao"/>
+    <context:component-scan base-package="com.clustertech.cloud.gui.service"/>
+
+    <bean id="loggerAdvice" class="com.clustertech.cloud.gui.advice.LoggerAdvice"/>
+
+    <aop:config>
+        <aop:pointcut id="loggerPointcut" expression="execution(* com.clustertech.cloud.gui.service..*(..))
+            || execution(* com.clustertech.cloud.gui.dao..*(..))"/>
+
+        <aop:aspect ref="loggerAdvice">
+            <aop:after method="debugLog" pointcut-ref="loggerPointcut"/>
+        </aop:aspect>
+    </aop:config>
+
+    <import resource="classpath:/spring-dao.xml"/>
+    <import resource="classpath:/spring-service.xml"/>
+</beans>

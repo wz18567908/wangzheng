@@ -1,0 +1,25 @@
+#!/bin/sh
+
+basePath=$(cd `dirname $0`;pwd)
+CTDLC_TOP=${basePath%/*}
+
+# Set the JRE_HOME
+JRE_HOME="${CTDLC_TOP%/*}/jre"
+
+tmp_lang=`locale -a | grep "en_US" | awk 'BEGIN {lang = ""} {if ($1 == "en_US" || $1 == "en_US.UTF-8" || $1 == "en_US.utf8") lang = $1} END {print lang}'`
+
+if [ "$tmp_lang" != "" ]; then
+        LANG=$tmp_lang
+        export LANG
+fi
+
+# Set the class path
+if [ -d "${CTDLC_TOP}/lib" ]; then
+    jarfiles=`find "${CTDLC_TOP}/lib" -name "*.jar" -print`
+fi
+
+for jarfile in ${jarfiles}; do
+    class_path="${class_path}:${jarfile}"
+done
+
+"${JRE_HOME}/bin/java" -client -Xms64M -Xmx1024M -DTOP_DIR=${CTDLC_TOP} -cp ${class_path} com.clustertech.cloud.dlc.framework.jdbc.dstools.DBConfig "$@"

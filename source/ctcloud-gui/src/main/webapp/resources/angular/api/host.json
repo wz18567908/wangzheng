@@ -1,0 +1,44 @@
+{
+    "aaData": [
+        {
+            "hostName": "host1",
+            "hostStatus": "OK",
+            "cpus": "2",
+            "cores": "8",
+            "hostType": "Redhat Linux 6.2",
+            "jobSlots": "0"
+        },
+        {
+            "hostName": "host2",
+            "hostStatus": "Broken",
+            "cpus": "2",
+            "cores": "8",
+            "hostType": "Redhat Linux 6.4",
+            "jobSlots": "0"
+        },
+        {
+            "hostName": "host3",
+            "hostStatus": "OK",
+            "cpus": "2",
+            "cores": "8",
+            "hostType": "CentOS",
+            "jobSlots": "0"
+        },
+        {
+            "hostName": "host4",
+            "hostStatus": "Suspend",
+            "cpus": "2",
+            "cores": "16",
+            "hostType": "Suse 10.2",
+            "jobSlots": "2"
+        },
+        {
+            "hostName": "host5",
+            "hostStatus": "OK",
+            "cpus": "2",
+            "cores": "8",
+            "hostType": "Winodws 10",
+            "jobSlots": "1"
+        }
+]
+}

@@ -1,0 +1,354 @@
+(function() {
+
+
+  app.controller('JobsCtrl', JobsCtrl);
+
+  JobsCtrl.$inject = ['$compile','$window','$scope','$http','DTOptionsBuilder', 'DTColumnBuilder', '$resource', 'DTInstances','$modal','$translate'];
+
+  function JobsCtrl($compile,$window,$scope, $http, DTOptionsBuilder, DTColumnBuilder, $resource, DTInstances,$modal,$translate) {
+    var vm = this;
+    vm.selected = {};
+    vm.selectAll = false;
+    vm.toggleAll = toggleAll;
+    vm.toggleOne = toggleOne;
+    $scope.ctrlBtnDisabled = true;
+    $scope.errorMessage = null;
+    $scope.successMessage =null;
+
+
+    vm.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
+      var promise = $http({url: "/ctcloud/job/control/jobList", method: "GET"}).then(function(response){
+        return response.data;
+      },function(response){
+        return [];
+      });
+      return promise;
+    }).withOption('createdRow', function(row, data, dataIndex) {
+      $compile(angular.element(row).contents())($scope);
+    }).withOption('headerCallback', function(header) {
+      $compile(angular.element(header).contents())($scope);
+    })
+    .withPaginationType('full_numbers');
+
+    var checkboxAll = '<input type="checkbox" ng-model="showCase.selectAll" ng-click="showCase.toggleAll(showCase.selectAll, showCase.selected)"/>';
+    vm.dtColumns = [
+      DTColumnBuilder.newColumn(null).withTitle(checkboxAll).notSortable().renderWith(function(data, type, full, meta) {
+        vm.selected[full.id] = false;
+        return '<input type="checkbox" ng-model="showCase.selected[' + data.jobId + ']"' + 'ng-click="showCase.toggleOne(' + data.jobId + ', showCase.selected);$event.stopPropagation();"/>';
+      }).withOption('width', '1%'),
+      DTColumnBuilder.newColumn('jobId').withTitle('<span class="" translate="content.job.jobList.ID"></span>').renderWith(function(data, type, full, meta) {
+        var retValue ='<a ng-click="showJob(' +  full.clusterName +')"  class="aTag">' + data + '</a>';
+        return retValue;
+      }),
+      DTColumnBuilder.newColumn('workLoadType').withTitle('<span class="" translate="content.job.jobList.TYPE"></span>'),
+      DTColumnBuilder.newColumn('jobName').withTitle('<span class="" translate="content.job.jobList.NAME"></span>'),
+      DTColumnBuilder.newColumn('jobStatus').withTitle('<span class="" translate="content.job.jobList.STATUS"></span>').notSortable().renderWith(function(data, type, full, meta) {
+        var retValue = '<span title="Active" class="label bg-success"><span class="" translate="content.job.jobList.ACTIVE"></span></span>';
+        if (data == 'USUSP') {
+          retValue ='<span title="Suspended" class="label bg-warning"><span class="" translate="content.job.jobList.SUSPENDED"></span></span>'
+        } else if (data.indexOf('DONE') != -1) {
+          retValue ='<span title="Done" class="label bg-light"><span class="" translate="content.job.jobList.DONE"></span></span>'
+        } else if (data == 'EXIT') {
+          retValue ='<span title="Done" class="label" style="background-color: #dc0000;"><span class="" translate="content.job.jobList.EXIT"></span></span>'
+        } else if (data == 'PSUSP') {
+          retValue ='<span title="PSUSP" class="label bg-light"><span class="" translate="content.job.jobList.PSUSP"></span></span>'
+        }
+        return retValue
+            }),
+      DTColumnBuilder.newColumn('queue').withTitle('<span class="" translate="content.job.jobList.QUEUE"></span>'),
+      DTColumnBuilder.newColumn('submitTimeStr').withTitle('<span class="" translate="content.job.jobList.SUBMIT_TIME"></span>'),
+      DTColumnBuilder.newColumn('startTimeStr').withTitle('<span class="" translate="content.job.jobList.START_TIME"></span>'),
+      DTColumnBuilder.newColumn('endTimeStr').withTitle('<span class="" translate="content.job.jobList.END_TIME"></span>'),
+      DTColumnBuilder.newColumn('userName').withTitle('<span class="" translate="content.job.jobList.USER"></span>')
+    ];
+
+    //get instance
+    DTInstances.getLast().then(function(dtInstance) {
+      vm.dtInstance = dtInstance;
+    });
+
+    $scope.createJob = function (){
+      $http({url: "/ctcloud/job/control/queues", method: "GET"}).then(function(response){
+        $scope.queues = response.data;
+        var modalInstance = $modal.open({
+          templateUrl: 'tpl/jobs/createJob.html',
+          controller: 'CreateJobCtrl',
+          resolve: {
+            queues: function() {
+              return $scope.queues;
+            },
+            userName: function() {
+              return $scope.ctUserName;
+            }
+          }
+
+        });
+        modalInstance.opened.then(function() {
+          console.log('modal is opened');
+        });
+        modalInstance.result.then(function(data) {
+          vm.selectAll = false;
+          $scope.errorMessage = null;
+          $scope.successMessage =null;
+          vm.dtInstance.rerender();
+          if (data.failure.length >0) {
+            $scope.errorMessage = data.failure[0];
+          }
+          if (data.success.length >0) {
+            $scope.successMessage = data.success[0];
+          }
+
+          console.log("operate success at: " + new Date());
+        }, function() {
+          console.log('modal dismissed at: ' + new Date());
+        });
+      },function(response){
+        $scope.queues = [];
+        var modalInstance = $modal.open({
+          templateUrl: 'tpl/jobs/createJob.html',
+          controller: 'CreateJobCtrl',
+          resolve: {
+            queues: function() {
+              return $scope.queues;
+            },
+            userName: function() {
+              return $scope.ctUserName;
+            }
+          }
+
+        });
+        modalInstance.opened.then(function() {
+          console.log('modal is opened');
+        });
+        modalInstance.result.then(function(data) {
+          vm.selectAll = false;
+          $scope.errorMessage = null;
+          $scope.successMessage =null;
+          vm.dtInstance.rerender();
+          if (data.failure.length >0) {
+            $scope.errorMessage = data.failure[0];
+          }
+          if (data.success.length >0) {
+            $scope.successMessage = data.success[0];
+          }
+
+          console.log("operate success at: " + new Date());
+        }, function() {
+          console.log('modal dismissed at: ' + new Date());
+        });
+      });
+
+
+    };
+
+    $scope.templateUrl = 'tpl/jobs/jobInfo.html';
+
+    $scope.showJob = function (clusterName) {
+      $('#jobSummary').addClass('active');
+      $scope.$broadcast("jobdetail.show",clusterName);
+    };
+
+
+    function toggleOne (rid, selectedItems) {
+      var me = this;
+      /*if (selectedItems[rid]) {
+        $('tr:contains("' + rid + '")').addClass('selected');
+      } else {
+        $('tr:contains("' + rid + '")').removeClass('selected');
+      }*/
+
+      var counter = 0;
+      for (var id in selectedItems) {
+        if (selectedItems.hasOwnProperty(id)) {
+          if (selectedItems[id]) {
+            counter++;
+          }
+        }
+      }
+
+      $('#row_counter').text((counter? counter:"None") + " selected");
+
+      for (var id in selectedItems) {
+        if (selectedItems.hasOwnProperty(id)) {
+          if (selectedItems[id]) {
+            $scope.ctrlBtnDisabled = false;
+            break;
+          } else {
+            $scope.ctrlBtnDisabled = true;
+          }
+        }
+      }
+
+      for (var id in selectedItems) {
+        if (selectedItems.hasOwnProperty(id)) {
+          if(!selectedItems[id]) {
+            me.selectAll = false;
+            return;
+          }
+        }
+      }
+      me.selectAll = true;
+    };
+
+    function toggleAll (selectAll, selectedItems) {
+      var myDataTable = vm.dtInstance.dataTable;
+      var rows = $("#demo01 tbody tr");
+
+      if (selectAll) {
+        //$('table.dataTable tbody tr').addClass('selected');
+        for (var i = 0; i < rows.length; i++) {
+          var rowData = myDataTable.fnGetData(rows[i]);
+          if (null != rowData)
+            selectedItems[rowData.jobId] = true;
+        }
+      } else {
+        //$('table.dataTable tbody tr').removeClass('selected');
+        for (var i = 0; i < rows.length; i++) {
+          var rowData = myDataTable.fnGetData(rows[i]);
+          if (null != rowData)
+            selectedItems[rowData.jobId] = false;
+        }
+      }
+
+      for (var id in selectedItems) {
+        if (selectedItems.hasOwnProperty(id)) {
+          if (selectedItems[id]) {
+            $scope.ctrlBtnDisabled = false;
+            break;
+          } else {
+            $scope.ctrlBtnDisabled = true;
+          }
+        }
+      }
+
+      var counter = 0;
+      for (var id in selectedItems) {
+        if (selectedItems.hasOwnProperty(id)) {
+          if (selectedItems[id]) {
+            counter++;
+          }
+        }
+      }
+      $('#row_counter').text((counter? counter:"None") + " selected");
+
+    };
+
+    $scope.doControlJob = function (jobAction){
+      var ids = [];
+      if (!!jobAction) {
+        for (var item in vm.selected) {
+          if (typeof(item) != 'undefined' && item != 'undefined' && !!item) {
+            ids.push(item);
+          }
+        }
+        if (ids.length >0) {
+          var modalInstance = $modal.open({
+            templateUrl: 'tpl/jobs/jobDialog.html',
+            controller: 'DialogCtrl',
+            size: 'sm',
+            resolve: {
+              jobAction: function() {
+                return jobAction;
+              },
+              ids: function() {
+                return ids;
+              }
+            }
+          });
+
+          modalInstance.result.then(function(data) {
+            vm.selectAll = false;
+            vm.dtInstance.rerender();
+            if (data.failure.length >0) {
+              $scope.errorMessage = data.failure[0];
+            }
+            if (data.success.length >0) {
+              $scope.successMessage = data.success[0];
+            }
+          }, function() {
+            console.log('modal dismissed at: ' + new Date());
+          });
+        }
+      }
+    }
+  }
+
+
+  //  create job ctrl
+  app.controller('CreateJobCtrl', ['$scope','$http','$window','$q','$modalInstance','queues',
+    function($scope, $http,$window,$q, $modalInstance,queues) {
+      $scope.job ={};
+      $scope.queues = queues;
+      $scope.job.user = sessionStorage.ctUsername;
+      var retMessage = {message :""};
+      $scope.ok = function() {
+        var reqUrl =  "/ctcloud/job/control/submit";
+        var objectToSerialize = JSON.stringify(this.job);
+        var promise = $http.post(reqUrl, objectToSerialize, {headers: {'Content-Type': 'application/json'}}).then(function(response){
+          $modalInstance.close(response.data);
+        },function(response){
+          $modalInstance.close(response.data);
+        });
+
+      };
+
+      $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+      };
+    }])
+
+  //  summary job ctrl
+  app.controller('JobDetailsCtrl', ['$scope','$http','$resource','$modal',
+    function JobDetailsCtrl($scope, $http,$resource, $modal) {
+      console.log('xxxxxxxxxxxxxxx');
+      $scope.$on('jobdetail.show',function(event,jobid,arrayIndex,clusterName){
+        $scope.jobid = jobid;
+        $http.get('/ctcloud/job/control/detail' , {params: {jobId:jobid,arrayIndex:arrayIndex,clusterName:clusterName}}).then(function(response) {
+          $scope.jobinfo = response.data;
+        }, function(response) {
+                console.error(response);
+                if(!response.data){
+                  $scope.onAlert("The request failed.");
+                }else if(typeof(response.data) == 'string'){
+                    $scope.onAlert("The request failed: " + response.data);
+                }else {
+                    $scope.onAlert("The request failed: " + JSON.stringify(response, null, 2));
+                }
+            });
+      });
+
+      $scope.closeJobdetails = function () {
+        $('#jobSummary').removeClass('active');
+      }
+  }]);
+
+  angular.module('app').filter('formateValue', function () {
+      return function (v) {
+        if(!v || v == "undefined"){
+          return "-";
+        }
+        return v;
+      };
+  })
+
+  app.controller('DialogCtrl', ['$scope','$window','$http', '$q', '$modalInstance', 'jobAction', 'ids',
+    function($scope,$window, $http, $q, $modalInstance, jobAction, ids){
+      var JobIds = ids.toString();
+      $scope.action =jobAction;
+      $scope.ok = function() {
+        var reqUrl =  "/ctcloud/job/control/" + jobAction;
+        var data = 'jobIds=' + JobIds + '&jobAction=' + jobAction + '&user=' + sessionStorage.ctUsername;
+        var promise = $http.post(reqUrl, data, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).then(function(response){
+
+          $modalInstance.close(response.data);
+        },function(response){
+          $modalInstance.close(response.data);
+        });
+      };
+      $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+      };
+  }]);
+
+})();
+

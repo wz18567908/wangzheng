@@ -1,0 +1,14 @@
+{
+  "user" : {
+    "name" : "Bossi",
+    "email": "bossi@g.com"
+  },
+  {
+    "name" : "lekang",
+    "email": "lekang@ibm.com"
+  },  
+  {
+    "name" : "user",
+    "email": "user@g.com"
+  }
+}

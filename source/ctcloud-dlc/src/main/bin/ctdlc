@@ -1,0 +1,36 @@
+#!/bin/sh
+
+basePath=$(cd `dirname $0`;pwd)
+CTDLC_TOP=${basePath%/*}
+
+# source the ctcloud and lsf environment variable.
+SHELL_TYPE=`env | grep SHELL`
+if [[ "${SHELL_TYPE}" =~ "bash" ]];then
+    source ${LSF_TOP}/conf/profile.lsf
+else
+    source ${LSF_TOP}/conf/cshrc.lsf
+fi
+
+# Set the LANG to UTF8
+tmp_lang=`locale -a | grep "en_US" | awk 'BEGIN {lang = ""} {if ($1 == "en_US" || $1 == "en_US.UTF-8" || $1 == "en_US.utf8") lang = $1} END {print lang}'`
+
+if [ "$tmp_lang" != "" ]; then
+        LANG=$tmp_lang
+        export LANG
+fi
+
+# Set the JRE_OPTS
+if [ -d "${CTDLC_TOP}/lib" ]; then
+    JAR_FILES=`find "${CTDLC_TOP}/lib" -name "*.jar" -print 2>/dev/null`
+fi
+
+for JAR_FILE in ${JAR_FILES}; do
+    CLASS_PATH="${CLASS_PATH}:${JAR_FILE}"
+done
+
+JRE_OPTS="${JRE_OPTS} -client -Xms2048M -Xmx3072M -XX:PermSize=128m -XX:MaxPermSize=256m"
+
+# Set the JRE_DEBUG
+# JRE_DEBUG="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=7777"
+
+exec "${JRE_HOME}/bin/java" ${JRE_OPTS} ${JRE_DEBUG} -DTOP_DIR="${CTDLC_TOP}" -cp ${CLASS_PATH} com.clustertech.cloud.dlc.framework.DLController "$@" 2>/dev/null &

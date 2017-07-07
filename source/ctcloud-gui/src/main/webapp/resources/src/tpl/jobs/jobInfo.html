@@ -1,0 +1,125 @@
+
+<div ng-controller="JobDetailsCtrl">
+	<div class="panel-heading font-bold">
+		<span translate="content.job.jobList.JOB_DETAILS"></span>
+		<span ng-click="closeJobdetails()"  style="float:right" tabindex="0" role="button">x	</span>	
+	</div>
+
+	<div class="panel-body"> 
+		<form class="form-horizontal" method="get">
+			<div class="form-group">
+				<label class="col-sm-4 control-label" style="padding-top: 0px;"><span translate="content.job.jobList.JOB_NAME"></span></label>
+				<div class="col-sm-7">
+					<span>{{jobinfo.jobName  | formateValue}}</span>
+					
+				</div>
+			</div>
+		
+			<div class="line line-dashed b-b line-lg pull-in"></div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label" style="padding-top: 0px;"></span></span><span translate="content.job.jobList.STATUS"></span></label>
+				<div class="col-sm-7">
+					<span >{{jobinfo.jobStatus  | formateValue}}</span>
+				</div>
+			</div>
+			
+			<div class="line line-dashed b-b line-lg pull-in"></div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label" style="padding-top: 0px;"></span><span translate="content.job.jobList.JOB_TYPE"></span></label>
+				<div class="col-sm-7">
+					<span >{{jobinfo.workLoadType  | formateValue}}</span>
+				</div>
+			</div>
+			
+			<div class="line line-dashed b-b line-lg pull-in"></div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label" style="padding-top: 0px;"></span><span translate="content.job.jobList.JOB_COMMAND"></span></label>
+				<div class="col-sm-7">
+					<span >{{jobinfo.command  | formateValue}}</span>
+				</div>
+			</div>
+			
+
+			
+			<div class="line line-dashed b-b line-lg pull-in"></div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label" style="padding-top: 0px;"></span><span translate="content.job.jobList.USER"></span></label>
+				<div class="col-sm-7">
+					<span >{{jobinfo.userName  | formateValue}}</span>
+				</div>
+			</div>
+			
+			<div class="line line-dashed b-b line-lg pull-in"></div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label" style="padding-top: 0px;"></span><span translate="content.job.jobList.QUEUE"></span></label>
+				<div class="col-sm-7">
+					<span >{{jobinfo.queue}}</span>
+				</div>
+			</div>
+			
+			<p>
+				<div class="form-group">
+					<div  class="col-sm-3" ui-toggle-class="hidden" target="#morelessDetails">
+						<h5><b><span translate="content.job.jobList.ADVANCE_INFO"></span></b> </h5>
+					</div>
+				</div>
+			</p>
+			
+			<div class="" id="morelessDetails">
+			
+			<div class="line line-dashed b-b line-lg pull-in"></div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label" style="padding-top: 0px;"></span><span translate="content.job.jobList.PROJECT"></span></label>
+					<div class="col-sm-7">
+						<span >{{jobinfo.projectName | formateValue}}</span>
+					</div>
+				</div>
+				
+								
+				<div class="line line-dashed b-b line-lg pull-in"></div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label" style="padding-top: 0px;"></span></span><span translate="content.job.jobList.CLUSTERNAME"></span></label>
+					<div class="col-sm-7">
+						<span >{{jobinfo.clusterName | formateValue}}</span>
+					</div>
+				</div>
+				<!--  
+				<div class="line line-dashed b-b line-lg pull-in"></div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label" style="padding-top: 0px;"></span><span translate="content.job.jobList.CURRENT_WORK_DIRECTORY"></span></label>
+					<div class="col-sm-7">
+						<span >{{jobinfo.cwd | formateValue}}</span>
+					</div>
+				</div>
+				-->
+				
+				
+				<div class="line line-dashed b-b line-lg pull-in"></div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label" style="padding-top: 0px;"></span><span translate="content.job.jobList.MIN_NUM_OF_PROCESSORS"></span></label>
+					<div class="col-sm-7">
+						<span >{{jobinfo.numProcessors}}</span>
+					</div>
+				</div>
+				<!-- 
+				<div class="line line-dashed b-b line-lg pull-in"></div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label" style="padding-top: 0px;"></span><span translate="content.job.jobList.CURRENT_WORK_DIRECTORY"></span></label>
+					<div class="col-sm-7">
+						<span >{{jobinfo.cwd | formateValue}}</span>
+					</div>
+				</div>
+
+				<div class="line line-dashed b-b line-lg pull-in"></div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label" style="padding-top: 0px;"></span><span translate="content.job.jobList.RUN_TIME_LIMIT"></span></label>
+					<div class="col-sm-7">
+						<span >{{jobinfo.runtimeLimit | formateValue}}</span>
+					</div>
+				</div> -->
+				
+		
+			</div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,19 @@
+#!/bin/csh
+# Daemons listening ports must not
+# be in use by other programs.
+setenv DLC_PORT 9785
+
+# Set the top level directory of the dlc
+setenv CTDLC_TOP "__CTDLC_TOP__"
+
+# Set the home directory of the jre
+setenv JRE_HOME "${CTDLC_TOP}/jre"
+
+# Set the path environment variable
+setenv PATH "${PATH}:${CTDLC_TOP}/bin"
+
+# Set the log directory for dataloaders
+setenv LOG_DIR "${CTDLC_TOP}/logs"
+
+# Set the top level directory of the lsf
+setenv LSF_TOP "__LSF_TOP__"

@@ -1,0 +1,2 @@
+[{"id":1,"name":"com2","type":"","size":4096,"modifyTime":1483420977000,"modifyTimeStr":null,"folder":true,"owner":"0","group":"0","permission":"Read,Write,-;Read,-,-","absolutePath":"/opt/xiaodong/testCal/ctportal/com","escapeAbsolutePath":null},
+{"id":3,"name":"test3.txt","type":"txt","size":4096,"modifyTime":1483420977000,"modifyTimeStr":null,"folder":false,"owner":"0","group":"0","permission":"Read,Write,-;Read,-,-","absolutePath":"/opt/xiaodong/testCal/ctportal/com","escapeAbsolutePath":null}]

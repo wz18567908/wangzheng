@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+    <bean id="propertyConfigurer" class="com.clustertech.cloud.gui.utils.PropertyConfigurer">
+       <property name="ignoreUnresolvablePlaceholders" value="true"/>
+       <property name="ignoreResourceNotFound" value="true"/>
+       <property name="locations">
+           <list>
+              <value>classpath:jdbc.properties</value>
+           </list>
+       </property>
+    </bean>
+
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+        destroy-method="close"
+        p:driverClass="${jdbc.driverClassName}"
+        p:jdbcUrl="${jdbc.url}"
+        p:user="${jdbc.username}"
+        p:password="${jdbc.password}"
+        p:minPoolSize="${jdbc.c3p0.minPoolSize}"
+        p:maxPoolSize="${jdbc.c3p0.maxPoolSize}"
+        p:maxIdleTime="${jdbc.c3p0.maxIdleTime}"
+        p:initialPoolSize="${jdbc.c3p0.initialPoolSize}"
+        p:testConnectionOnCheckout="${jdbc.c3p0.testConnectionOnCheckout}"
+        p:testConnectionOnCheckin="${jdbc.c3p0.testConnectionOnCheckin}"
+        p:idleConnectionTestPeriod="${jdbc.c3p0.idleConnectionTestPeriod}"/>
+
+    <bean id="sessionFactory"
+        class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+                <prop key="hibernate.temp.use_jdbc_metadata_defaults">false</prop>
+            </props>
+        </property>
+
+        <property name="packagesToScan">
+            <list>
+                <value>com.clustertech.cloud.gui.domain</value>
+            </list>
+        </property>
+    </bean>
+</beans>

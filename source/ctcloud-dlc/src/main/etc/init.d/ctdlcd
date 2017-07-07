@@ -1,0 +1,66 @@
+#!/bin/sh
+#
+# description: ctcloud data loader controller daemon.
+#
+# processname: ctdlc
+
+CTDLC_TOP="__CTDLC_TOP__"
+
+# source the ctcloud and lsf environment variable.
+source ${CTDLC_TOP}/conf/profile.dlc
+
+LIB64="${LD_LIBRARY_PATH}:${CTDLC_TOP%/*}/lib64"
+
+# Source function library.
+. /etc/init.d/functions
+
+CTDLC_CMD="${CTDLC_TOP}/bin/ctdlc"
+
+prog=ctdlc
+RETVAL=0
+
+start() {
+    echo -n $"Starting $prog: "
+    daemon --user root DLC_PORT=$CTDLC_PORT CTDLC_TOP=$CTDLC_TOP LOG_DIR=$LOG_DIR LD_LIBRARY_PATH=${LIB64} ${CTDLC_CMD} start
+    echo
+}
+
+stop() {
+    echo -n $"Stopping $prog: "
+    daemon --user root DLC_PORT=$CTDLC_PORT CTDLC_TOP=$CTDLC_TOP LOG_DIR=$LOG_DIR LD_LIBRARY_PATH=${LIB64} ${CTDLC_CMD} stop
+    echo
+}
+
+status() {
+   PIDS=`ps -ef | grep -w 'com.clustertech.cloud.dlc.framework.DLController' | grep -v 'grep' | awk '{print $2}'`
+   if [ "$PIDS" != "" ]; then
+       echo -n $prog" is runing!"
+       echo
+   else
+       echo -n $prog" is down!"
+       echo
+   fi
+}
+
+restart() {
+    stop
+    start
+}
+
+case "$1" in
+        start)
+                start
+                ;;
+        stop)
+                stop
+                ;;
+        status)
+                status
+                ;;
+        restart)
+                restart
+                ;;
+        *)
+                echo "Usage: ctdlc {start|stop|restart|status}"
+                exit 1
+esac

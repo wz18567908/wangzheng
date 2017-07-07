@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Transformers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="transformer.xsd">
+    <Transformer name="MYSQL" class="com.clustertech.cloud.dlc.framework.jdbc.SQLStateTransformer">
+        <DataAccessException name="ignore" class="com.clustertech.cloud.dlc.framework.jdbc.IgnorableDataAccessException">
+            <Properties>23000</Properties>
+            <!-- 
+                23000:  INTEGRITY CONSTRAINT VIOLATION
+             -->
+        </DataAccessException>
+    </Transformer>
+</Transformers>

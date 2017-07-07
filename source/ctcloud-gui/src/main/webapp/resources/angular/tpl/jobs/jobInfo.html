@@ -1,0 +1,124 @@
+
+<div ng-controller="JobDetailsCtrl">
+	<div class="panel-heading font-bold">
+		Job Details
+		<span ng-click="closeJobdetails()"  style="float:right" tabindex="0" role="button">x	</span>	
+	</div>
+
+	<div class="panel-body"> 
+		<form class="form-horizontal" method="get">
+			<div class="form-group">
+				<label class="col-sm-4 control-label" style="padding-top: 0px;">Job Name</label>
+				<div class="col-sm-7">
+					<span>{{jobinfo.jobName  | formateValue}}</span>
+					
+				</div>
+			</div>
+		
+			<div class="line line-dashed b-b line-lg pull-in"></div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label" style="padding-top: 0px;"></span>Status</label>
+				<div class="col-sm-7">
+					<span >{{jobinfo.status  | formateValue}}</span>
+				</div>
+			</div>
+			
+			<div class="line line-dashed b-b line-lg pull-in"></div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label" style="padding-top: 0px;"></span>Job Type</label>
+				<div class="col-sm-7">
+					<span >{{jobinfo.jobType  | formateValue}}</span>
+				</div>
+			</div>
+			
+			<div class="line line-dashed b-b line-lg pull-in"></div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label" style="padding-top: 0px;"></span>Job Command</label>
+				<div class="col-sm-7">
+					<span >{{jobinfo.cmdAsRun  | formateValue}}</span>
+				</div>
+			</div>
+			
+
+			
+			<div class="line line-dashed b-b line-lg pull-in"></div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label" style="padding-top: 0px;"></span>User</label>
+				<div class="col-sm-7">
+					<span >{{jobinfo.user  | formateValue}}</span>
+				</div>
+			</div>
+			
+			<div class="line line-dashed b-b line-lg pull-in"></div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label" style="padding-top: 0px;"></span>Queue</label>
+				<div class="col-sm-7">
+					<span >{{jobinfo.submitToQueue}}</span>
+				</div>
+			</div>
+			
+			<p>
+				<div class="form-group">
+					<div  class="col-sm-3" ui-toggle-class="hidden" target="#morelessDetails">
+						<h5><b>Advance Info</b> </h5>
+					</div>
+				</div>
+			</p>
+			
+			<div class="" id="morelessDetails">
+			
+			<div class="line line-dashed b-b line-lg pull-in"></div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label" style="padding-top: 0px;"></span>Project</label>
+					<div class="col-sm-7">
+						<span >{{jobinfo.project | formateValue}}</span>
+					</div>
+				</div>
+				
+								
+				<div class="line line-dashed b-b line-lg pull-in"></div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label" style="padding-top: 0px;"></span>ClusterNames</label>
+					<div class="col-sm-7">
+						<span >{{jobinfo.clusterNames | formateValue}}</span>
+					</div>
+				</div>
+				
+				<div class="line line-dashed b-b line-lg pull-in"></div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label" style="padding-top: 0px;"></span>ClusterNames</label>
+					<div class="col-sm-7">
+						<span >{{jobinfo.cwd | formateValue}}</span>
+					</div>
+				</div>
+				
+				
+				<div class="line line-dashed b-b line-lg pull-in"></div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label" style="padding-top: 0px;"></span>Min Num of Processors</label>
+					<div class="col-sm-7">
+						<span >{{jobinfo.minNumProcessors | formateValue}}</span>
+					</div>
+				</div>
+				
+				<div class="line line-dashed b-b line-lg pull-in"></div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label" style="padding-top: 0px;"></span>Current Work Directory</label>
+					<div class="col-sm-7">
+						<span >{{jobinfo.cwd | formateValue}}</span>
+					</div>
+				</div>
+
+				<div class="line line-dashed b-b line-lg pull-in"></div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label" style="padding-top: 0px;"></span>Run Time Limit</label>
+					<div class="col-sm-7">
+						<span >{{jobinfo.runtimeLimit | formateValue}}</span>
+					</div>
+				</div>
+				
+		
+			</div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,71 @@
+
+
+<div ng-controller="testCtrl">
+	<div class="bg-light lter b-b wrapper-md">
+		<h1 class="m-n font-thin h3">file</h1>
+			
+	<loading-bar></loading-bar>
+	</div>
+	<div style="overflow: hidden; position: relative;">
+	<button class="btn btn-primary"><span>Open Local File</span></button>
+	<!-- input type="file" nv-file-select="" uploader="uploader" multiple   style="position: absolute; top: 0px; left: 0px; z-index: 2; width: 100%; height: 100%; opacity: 0; cursor: pointer;"/-->
+	<input type="file" onchange="angular.element(this).scope().getFileList(this)"  multiple   style="position: absolute; top: 0px; left: 0px; z-index: 2; width: 100%; height: 100%; opacity: 0; cursor: pointer;"/>
+	</div>
+      
+      <div style="overflow: hidden; position: relative;">
+	  <button class="btn btn-primary" ng-click="openRemotefile()">Open Server File</button>
+	  </div>
+	   <div class="wrapper-md">
+      <table class="table bg-white-only b-a">
+          <thead>
+              <tr>
+                  <th width="30%">Name</th>
+                  <th>Host</th>
+                  <th >Size</th>
+                  <!-- th ng-show="uploader.isHTML5">Progress</th>
+                  <th>Status</th -->
+                  <th>Actions</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr ng-repeat="item in upload2files track by $index">
+                  <td><strong>{{item.name }}</strong></td>
+                  <td nowrap ><div  ng-if="item.host == null">Local</div><div  ng-if="item.host">{{item.host}}</div></td>
+                  <td nowrap ng-if="item.size/1024 > 1024">{{ item.size/1024/1024|number:2 }} MB</td>
+                  <td nowrap ng-if="item.size/1024 < 1024">{{ item.size/1024|number:2 }} KB</td>
+                  <!-- td ng-show="uploader.isHTML5">
+                      <div class="progress progress-sm m-b-none m-t-xs">
+                          <div class="progress-bar bg-info" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                      </div>
+                  </td>
+                  <td class="text-center">
+                      <span ng-show="item.isSuccess" class="text-success"><i class="glyphicon glyphicon-ok"></i></span>
+                      <span ng-show="item.isCancel" class="text-warning"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                      <span ng-show="item.isError" class="text-danger"><i class="glyphicon glyphicon-remove"></i></span>
+                  </td -->
+                  <td nowrap>
+                       <button  type="button" class="btn btn-default btn-xs" ng-click="removeFile(item)">
+                          Remove
+                      </button>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+
+      <div>
+        <div style="overflow: hidden; position: relative;">
+	  <button class="btn btn-primary" ng-click="startUpload()">startUpload</button>
+	  </div>
+</div>
+
+<div>
+   	<div class="progress bg-light dker" style="">
+		<div class="progress-bar progress-bar-striped bg-info" role="progressbar" ng-style="{ 'width': 20 + '%' }"></div>
+	</div>
+	
+	<!-- div class="loading">Loading&#8230;</div -->
+
+	
+	
+	
+</div>
